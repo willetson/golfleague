@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	 <changeSet id="1" author="will.etson@gmail.com">
+        <createTable tableName="round">
+			<column name="roundId" type="INTEGER" autoIncrement="true">
+				<constraints  primaryKey="true" />
+			</column>
+			<column name="teamId" type="INTEGER"/>
+			<column name="position" type="INTEGER"/>
+			<column name="memberId" type="INTEGER" />
+			<column name="handicap" type="NUMERIC(3,1)" />
+			<column name="gross" type="NUMERIC(3,1)" />
+			<column name="net" type="NUMERIC(3,1)" />
+		</createTable>
+    </changeSet>
+	<changeSet id="2" author="will.etson@gmail.com">
+        
+		<createTable tableName="league">
+			<column name="leagueId" type="INTEGER" autoIncrement="true">
+				<constraints  primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)"/>
+		</createTable>
+		
+		<createTable tableName="season">
+			<column name="seasonId" type="INTEGER" autoIncrement="true">
+				<constraints  primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)"/>
+			<column name="leagueId" type="INTEGER"/>
+		</createTable>
+		
+		<createTable tableName="schedule">
+			<column name="scheduleId" type="INTEGER" autoIncrement="true">
+				<constraints  primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)"/>
+			<column name="date" type="DATE"/>
+			<column name="seasonId" type="INTEGER"/>
+		</createTable>
+		
+		<createTable tableName="team">
+			<column name="teamId" type="INTEGER" autoIncrement="true">
+				<constraints  primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(255)"/>
+			<column name="captainId" type="INTEGER"/>
+		</createTable>
+		
+		<createTable tableName="member">
+			<column name="memberId" type="INTEGER" autoIncrement="true">
+				<constraints  primaryKey="true" />
+			</column>
+			<column name="firstname" type="VARCHAR(255)"/>
+			<column name="lastname" type="VARCHAR(255)"/>
+			<column name="teamId" type="INTEGER"/>
+			<column name="since" type="DATE"/>
+			<column name="handicap" type="NUMERIC(3,1)" />
+		</createTable>
+		
+    </changeSet>
+	<changeSet id="3" author="will.etson@gmail.com">
+		<addForeignKeyConstraint baseColumnNames="leagueId"
+            baseTableName="season"
+            constraintName="fk_season_leagueId"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="leagueId"
+            referencedTableName="league"/>
+			
+		<addForeignKeyConstraint baseColumnNames="seasonId"
+            baseTableName="schedule"
+            constraintName="fk_schedule_season"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="seasonId"
+            referencedTableName="season"/>
+			
+		<addForeignKeyConstraint baseColumnNames="captainId"
+            baseTableName="team"
+            constraintName="fk_team_captain"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="memberId"
+            referencedTableName="member"/>
+			
+		<addForeignKeyConstraint baseColumnNames="teamId"
+            baseTableName="member"
+            constraintName="fk_member_team"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="teamId"
+            referencedTableName="team"/>
+			
+		<addForeignKeyConstraint baseColumnNames="teamId"
+            baseTableName="round"
+            constraintName="fk_round_team"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="teamId"
+            referencedTableName="team"/>
+		
+		<addForeignKeyConstraint baseColumnNames="memberId"
+            baseTableName="round"
+            constraintName="fk_round_member"
+            onDelete="CASCADE"
+            onUpdate="RESTRICT"
+            referencedColumnNames="memberId"
+            referencedTableName="member"/>
+    </changeSet>
+</databaseChangeLog>
+
