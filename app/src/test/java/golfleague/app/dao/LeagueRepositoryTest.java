@@ -2,6 +2,9 @@ package golfleague.app.dao;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -29,7 +32,7 @@ public class LeagueRepositoryTest {
     private LeagueRepository leagueRepository;
 
 	@Test
-	public void whenFindByName_thenReturnEmployee() {
+	public void whenFindByName_thenReturnLeague() {
 		// given
 		League alex = new League("alex");
 		entityManager.persist(alex);
@@ -41,6 +44,29 @@ public class LeagueRepositoryTest {
 		// then
 		assertThat(found.getName())
 		  .isEqualTo(alex.getName());
+		
+	}
+	
+	@Test
+	public void whenPersist_thenStoreSeason() {
+		// given
+		League alex = new League("alex");
+		Season season = new Season("2018");
+		List<Season> seasons = new ArrayList<Season>();
+		seasons.add(season);
+		alex.setSeasons(seasons);
+		
+		entityManager.persist(season);
+		entityManager.persist(alex);
+		entityManager.flush();
+			 
+		// when
+		League found = leagueRepository.findByName(alex.getName());
+	 
+		// then
+		assertThat(found.getName())
+		  .isEqualTo(alex.getName());
+		
 	}
 
 /*
