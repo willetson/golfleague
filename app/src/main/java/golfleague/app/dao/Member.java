@@ -18,8 +18,11 @@ public class Member {
 	private String lastName;
 	float startingHandicap = 0;
 	
-	@OneToMany
+	@ManyToOne
 	private Team team;
+	
+	@OneToMany
+	private List<Round> rounds;
 	
 	protected Member() {}
 	
@@ -73,8 +76,7 @@ public class Member {
 		this.rounds = rounds;
 	}
 
-	@ManyToOne
-	private List<Round> rounds;
+	
 	
 	
 

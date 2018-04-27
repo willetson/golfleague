@@ -70,7 +70,7 @@ public class HandicapTest {
 		assertEquals(Handicap.calculateMemberHandicap(member), 3.0F, 0.01F);
 		
 		rounds.add(r11);
-		assertEquals(Handicap.calculateMemberHandicap(member), 3F, 0.01F);
+		assertEquals(Handicap.calculateMemberHandicap(member), 2F, 0.01F);
 		
 	}
 

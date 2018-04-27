@@ -15,9 +15,11 @@ public class Team {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String name;
-    private Member captain;
     
     @ManyToOne
+    private Member captain;
+    
+    @OneToMany
     private List<Member> memeber; 
     
     protected Team() {}
